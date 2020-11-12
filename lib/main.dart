@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gbt_flutter/models/game.dart';
 import "components/game.dart";
+import "components/game2.dart";
+import "components/game3.dart";
 import "mocks/mocks.dart";
 
 void main() {
@@ -27,8 +29,8 @@ class App extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: [
                   Game(game: gameModel),
-                  Game(game: gameModel),
-                  Game(game: gameModel),
+                  Game2(game: gameModel),
+                  Game3(game: gameModel),
                 ],
               ),
             )));
