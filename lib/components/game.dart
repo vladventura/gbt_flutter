@@ -35,31 +35,51 @@ class Game extends StatelessWidget {
                 ],
               ),
               child: Container(
-                  padding: EdgeInsets.all(7),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            game.name,
-                            style: TextStyle(
-                                fontFamily: 'Montserrat', fontSize: 17),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 9,
-                      ),
-                      Row(
-                        children: [
-                          Text(game.currentHours.toString() +
-                              " out of " +
-                              game.hltbHours.toString())
-                        ],
+                      Padding(
+                        padding: EdgeInsets.all(7),
+                        child: Text(
+                          game.name,
+                          style:
+                              TextStyle(fontFamily: 'Montserrat', fontSize: 17),
+                        ),
                       )
                     ],
-                  )),
+                  ),
+                  SizedBox(
+                    height: 9,
+                  ),
+                  Container(
+                    height: 47,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(5),
+                            bottomRight: Radius.circular(5)),
+                        gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            stops: [
+                              (game.currentHours / game.hltbHours),
+                              (game.currentHours / game.hltbHours)
+                            ],
+                            colors: [
+                              Colors.green,
+                              Colors.lightGreen
+                            ])),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text(((game.currentHours / game.hltbHours) * 100)
+                              .toStringAsFixed(1) +
+                          "%"),
+                    ),
+                  )
+                ],
+              )),
             ),
           ),
         ],

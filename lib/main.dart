@@ -16,7 +16,7 @@ class App extends StatelessWidget {
         name: "Genshin Impact",
         coverArtUrl:
             "https://giantbomb1.cbsistatic.com/uploads/scale_medium/45/459166/3245697-genshin.jpg",
-        currentHours: 60,
+        currentHours: 150,
         hltbHours: 2000,
         consoles: <String>["PS4", "PC", "Android", "iOS"]);
     return MaterialApp(
