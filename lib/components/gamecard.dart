@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:gbt_flutter/models/game.dart';
 
-class Game3 extends StatelessWidget {
+class GameCard extends StatelessWidget {
   final GameModel game;
-  const Game3({@required this.game}) : super();
+  const GameCard({@required this.game}) : super();
 
   @override
   Widget build(BuildContext context) {

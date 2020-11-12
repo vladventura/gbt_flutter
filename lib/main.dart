@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gbt_flutter/models/game.dart';
-import "components/game.dart";
-import "components/game2.dart";
-import "components/game3.dart";
-import "mocks/mocks.dart";
+import 'components/gamecard.dart';
 
 void main() {
   runApp(App());
@@ -28,9 +25,9 @@ class App extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  Game(game: gameModel),
-                  Game2(game: gameModel),
-                  Game3(game: gameModel),
+                  GameCard(game: gameModel),
+                  GameCard(game: gameModel),
+                  GameCard(game: gameModel),
                 ],
               ),
             )));
