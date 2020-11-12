@@ -28,7 +28,17 @@ class Game2 extends StatelessWidget {
               height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Colors.white,
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: [
+                      (game.currentHours / game.hltbHours),
+                      (game.currentHours / game.hltbHours)
+                    ],
+                    colors: [
+                      Colors.green,
+                      Colors.lightGreen
+                    ]),
                 boxShadow: [
                   BoxShadow(
                       blurRadius: 1, color: Colors.black12, spreadRadius: 2)

@@ -22,7 +22,7 @@ class App extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              title: Text("Game Backlog Tracker"),
+              title: Text("Demo Time"),
             ),
             body: Container(
               child: ListView(
