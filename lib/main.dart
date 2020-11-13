@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gbt_flutter/models/game.dart';
 import 'components/gamecard.dart';
+import 'package:provider/provider.dart';
+import 'notifiers/gamesnotifier.dart';
 
 void main() {
-  runApp(App());
+  // We probably would use a multi provider here
+  runApp(ChangeNotifierProvider(
+      create: (context) => GamesNotifier(), child: App()));
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    print("===========INITIALIZE RAN===========");
+    Provider.of<GamesNotifier>(context, listen: false).initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -18,19 +34,21 @@ class App extends StatelessWidget {
         currentHours: 150,
         hltbHours: 2000,
         consoles: <String>["PS4", "PC", "Android", "iOS"]);
+    print("========================HELLO========================");
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
               title: Text("Demo Time"),
             ),
             body: Container(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  GameCard(game: gameModel),
-                  GameCard(game: gameModel),
-                  GameCard(game: gameModel),
-                ],
+              child: Consumer<GamesNotifier>(
+                builder: (context, data, child) {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children:
+                        data.savedGames.map((e) => GameCard(game: e)).toList(),
+                  );
+                },
               ),
             )));
   }
