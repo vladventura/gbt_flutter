@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gbt_flutter/models/game.dart';
 import 'components/gamecard.dart';
 
@@ -9,6 +10,7 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     GameModel gameModel = new GameModel(
         name: "Genshin Impact",
         coverArtUrl:

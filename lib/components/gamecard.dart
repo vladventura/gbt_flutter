@@ -1,91 +1,145 @@
+import 'dart:ui';
+import 'dart:math' as math;
 import "package:flutter/material.dart";
 import 'package:gbt_flutter/models/game.dart';
 
-class GameCard extends StatelessWidget {
+class GameCard extends StatefulWidget {
   final GameModel game;
-  const GameCard({@required this.game}) : super();
+  GameCard({@required this.game}) : super();
+
+  @override
+  _GameCardState createState() => _GameCardState();
+}
+
+class _GameCardState extends State<GameCard> {
+  final cardHeight;
+  final double cardWidth;
+  final double topBoxWidth;
+  final double topBoxHeight;
+  final double progressBarHeight;
+  final double progressBarDepth;
+
+  _GameCardState()
+      : cardHeight =
+            (window.physicalSize.height / window.devicePixelRatio) * 0.75,
+        cardWidth = (window.physicalSize.width / window.devicePixelRatio) * 0.8,
+        topBoxWidth =
+            (window.physicalSize.width / window.devicePixelRatio) * 0.8,
+        topBoxHeight =
+            (window.physicalSize.height / window.devicePixelRatio) * 0.125,
+        progressBarHeight =
+            (window.physicalSize.height / window.devicePixelRatio) * 0.035,
+        progressBarDepth =
+            ((window.physicalSize.height / window.devicePixelRatio) * 0.75) -
+                ((window.physicalSize.height / window.devicePixelRatio) *
+                    0.035);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 40, 20, 40),
+      padding: EdgeInsets.fromLTRB(
+          (MediaQuery.of(context).devicePixelRatio) * 10,
+          (MediaQuery.of(context).devicePixelRatio) * 10,
+          (MediaQuery.of(context).devicePixelRatio) * 10,
+          (MediaQuery.of(context).devicePixelRatio) * 0),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 300,
-            height: 400,
+            width: cardWidth,
+            height: cardHeight,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 2,
+                      color: Colors.black12,
+                      offset: Offset(5, 5))
+                ],
                 image: DecorationImage(
-                    image: NetworkImage(game.coverArtUrl), fit: BoxFit.cover)),
+                    image: NetworkImage(widget.game.coverArtUrl),
+                    fit: BoxFit.cover)),
           ),
-          Container(
-            width: 300,
-            height: 90,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(blurRadius: 1, color: Colors.black12, spreadRadius: 2)
-              ],
-            ),
-            child: Container(
-                padding: EdgeInsets.all(7),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          game.name,
-                          style:
-                              TextStyle(fontFamily: 'Montserrat', fontSize: 17),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 9,
-                    ),
-                    Row(
-                      children: [
-                        Text("[PS4]"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("[PC]"),
-                        SizedBox(width: 10),
-                        Text("[iOS]"),
-                        SizedBox(width: 10),
-                        Text("[Android]"),
-                      ],
-                    )
-                  ],
-                )),
-          ),
-          Positioned(
-              top: 380,
-              child: Container(
-                  width: 300,
-                  height: 20,
-                  padding: EdgeInsets.only(
-                      left: ((game.currentHours / game.hltbHours) * 300) + 5),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.green,
-                        Colors.lightGreen
-                      ], stops: [
-                        (game.currentHours / game.hltbHours),
-                        (game.currentHours / game.hltbHours)
-                      ]),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(5),
-                          bottomRight: Radius.circular(5))),
-                  child: Text(((game.currentHours / game.hltbHours) * 100)
-                          .toStringAsFixed(1) +
-                      "%")))
+          _topBanner(),
+          _progressBar()
         ],
       ),
     );
+  }
+
+  Container _topBanner() {
+    return Container(
+      width: this.topBoxWidth,
+      height: this.topBoxHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        color: Colors.white,
+      ),
+      child: Container(
+          padding: EdgeInsets.all(7),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    widget.game.name,
+                    style:
+                        // TODO: Bring this onto a global theme for the app
+                        TextStyle(fontFamily: 'Montserrat', fontSize: 17),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 9,
+              ),
+              Row(
+                // TODO: Get icons for each console/platform
+                children: [
+                  Text("[PS4]"),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("[PC]"),
+                  SizedBox(width: 10),
+                  Text("[iOS]"),
+                  SizedBox(width: 10),
+                  Text("[Android]"),
+                ],
+              )
+            ],
+          )),
+    );
+  }
+
+  Positioned _progressBar() {
+    return Positioned(
+        top: this.progressBarDepth,
+        child: Container(
+            width: this.cardWidth,
+            height: this.progressBarHeight,
+            // TODO: If the gradient is animated, this padding should be as well
+            padding: EdgeInsets.only(
+              left: ((widget.game.currentHours / widget.game.hltbHours) *
+                      this.cardWidth) +
+                  ((MediaQuery.of(context).devicePixelRatio) * 2),
+            ),
+            decoration: BoxDecoration(
+                // TODO: Look into animating this bar
+                gradient: LinearGradient(colors: [
+                  Colors.green,
+                  Colors.lightGreen
+                ], stops: [
+                  (widget.game.currentHours / widget.game.hltbHours),
+                  (widget.game.currentHours / widget.game.hltbHours)
+                ]),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(5),
+                    bottomRight: Radius.circular(5))),
+            child: Text(
+                ((widget.game.currentHours / widget.game.hltbHours) * 100)
+                        .toStringAsFixed(1) +
+                    "%")));
   }
 }
