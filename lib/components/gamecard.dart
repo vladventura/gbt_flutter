@@ -42,6 +42,7 @@ class _GameCardState extends State<GameCard> {
       return GestureDetector(
         onTap: () {
           data.selectedGame = widget.game;
+          Navigator.of(context).pushNamed('/selectedGame');
         },
         child: Container(
           padding: EdgeInsets.fromLTRB(
