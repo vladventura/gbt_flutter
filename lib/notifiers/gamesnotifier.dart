@@ -10,6 +10,10 @@ class GamesNotifier with ChangeNotifier {
   List<GameModel> get savedGames => _savedGames;
   GameModel get selectedGame => _selectedGame;
 
+  GamesNotifier() {
+    initialize();
+  }
+
   set savedGames(List<GameModel> l) {
     this._savedGames = l;
     notifyListeners();
@@ -30,13 +34,14 @@ class GamesNotifier with ChangeNotifier {
 
   void initialize() {
     /// Here we would query the DB for any saved game and return each row
-    this._savedGames = allGames
+    this.savedGames = allGames
         .map((e) => new GameModel(
             name: e['name'],
             coverArtUrl: e['cover_art_url'],
             currentHours: e['current_hours'],
             hltbHours: e['hltb_hours'],
             consoles: e['consoles']))
-        .toList();
+        .toList()
+        .cast<GameModel>();
   }
 }
