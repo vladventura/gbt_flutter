@@ -2,6 +2,8 @@ import 'dart:ui';
 import "package:flutter/material.dart";
 import 'package:gbt_flutter/components/progressbar.dart';
 import 'package:gbt_flutter/models/game.dart';
+import 'package:gbt_flutter/notifiers/gamesnotifier.dart';
+import 'package:provider/provider.dart';
 
 class GameCard extends StatefulWidget {
   final GameModel game;
@@ -36,35 +38,42 @@ class _GameCardState extends State<GameCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-          (MediaQuery.of(context).devicePixelRatio) * 10,
-          (MediaQuery.of(context).devicePixelRatio) * 10,
-          (MediaQuery.of(context).devicePixelRatio) * 10,
-          (MediaQuery.of(context).devicePixelRatio) * 0),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            width: cardWidth,
-            height: cardHeight,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 2,
-                      color: Colors.black12,
-                      offset: Offset(5, 5))
-                ],
-                image: DecorationImage(
-                    image: NetworkImage(widget.game.coverArtUrl),
-                    fit: BoxFit.cover)),
+    return Consumer<GamesNotifier>(builder: (context, data, child) {
+      return GestureDetector(
+        onTap: () {
+          data.selectedGame = widget.game;
+        },
+        child: Container(
+          padding: EdgeInsets.fromLTRB(
+              (MediaQuery.of(context).devicePixelRatio) * 10,
+              (MediaQuery.of(context).devicePixelRatio) * 10,
+              (MediaQuery.of(context).devicePixelRatio) * 10,
+              (MediaQuery.of(context).devicePixelRatio) * 0),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                width: cardWidth,
+                height: cardHeight,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 2,
+                          color: Colors.black12,
+                          offset: Offset(5, 5))
+                    ],
+                    image: DecorationImage(
+                        image: NetworkImage(widget.game.coverArtUrl),
+                        fit: BoxFit.cover)),
+              ),
+              _topBanner(),
+              _progressBar()
+            ],
           ),
-          _topBanner(),
-          _progressBar()
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 
   Container _topBanner() {
