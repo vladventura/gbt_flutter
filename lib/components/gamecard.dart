@@ -1,5 +1,6 @@
 import 'dart:ui';
 import "package:flutter/material.dart";
+import 'package:gbt_flutter/components/progressbar.dart';
 import 'package:gbt_flutter/models/game.dart';
 
 class GameCard extends StatefulWidget {
@@ -115,30 +116,11 @@ class _GameCardState extends State<GameCard> {
   Positioned _progressBar() {
     return Positioned(
         top: this.progressBarDepth,
-        child: Container(
-            width: this.cardWidth,
-            height: this.progressBarHeight,
-            // TODO: If the gradient is animated, this padding should be as well
-            padding: EdgeInsets.only(
-              left: ((widget.game.currentHours / widget.game.hltbHours) *
-                      this.cardWidth) +
-                  ((MediaQuery.of(context).devicePixelRatio) * 2),
-            ),
-            decoration: BoxDecoration(
-                // TODO: Look into animating this bar
-                gradient: LinearGradient(colors: [
-                  Colors.green,
-                  Colors.lightGreen
-                ], stops: [
-                  (widget.game.currentHours / widget.game.hltbHours),
-                  (widget.game.currentHours / widget.game.hltbHours)
-                ]),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(5))),
-            child: Text(
-                ((widget.game.currentHours / widget.game.hltbHours) * 100)
-                        .toStringAsFixed(1) +
-                    "%")));
+        child: ProgressBar(
+          height: this.progressBarHeight,
+          width: this.cardWidth,
+          percentage: (widget.game.currentHours / widget.game.hltbHours) * 100,
+          hoursSpent: widget.game.currentHours,
+        ));
   }
 }

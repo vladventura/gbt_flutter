@@ -35,7 +35,7 @@ const Map p5 = <String, dynamic>{
   "name": "Persona 5",
   "cover_art_url":
       "https://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Persona_5_cover_art.jpg/220px-Persona_5_cover_art.jpg",
-  "current_hours": 97,
+  "current_hours": 970,
   "hltb_hours": 120,
   "consoles": <String>[
     "PS4",
