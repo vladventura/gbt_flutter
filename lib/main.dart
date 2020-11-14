@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gbt_flutter/components/gamelist.dart';
+import 'package:gbt_flutter/routegenerator.dart';
 import 'package:provider/provider.dart';
 import 'notifiers/gamesnotifier.dart';
 
@@ -27,12 +27,8 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text("Demo Time"),
-            ),
-            body: Container(
-              child: GameList(),
-            )));
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.route,
+    );
   }
 }
