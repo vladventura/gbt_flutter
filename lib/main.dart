@@ -26,6 +26,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.route,

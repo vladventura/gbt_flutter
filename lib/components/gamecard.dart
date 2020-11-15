@@ -53,20 +53,23 @@ class _GameCardState extends State<GameCard> {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              Container(
-                width: cardWidth,
-                height: cardHeight,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 2,
-                          color: Colors.black12,
-                          offset: Offset(5, 5))
-                    ],
-                    image: DecorationImage(
-                        image: NetworkImage(widget.game.coverArtUrl),
-                        fit: BoxFit.cover)),
+              Hero(
+                tag: "cover_art_" + widget.game.name,
+                child: Container(
+                  width: cardWidth,
+                  height: cardHeight,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 2,
+                            color: Colors.black12,
+                            offset: Offset(5, 5))
+                      ],
+                      image: DecorationImage(
+                          image: NetworkImage(widget.game.coverArtUrl),
+                          fit: BoxFit.cover)),
+                ),
               ),
               _topBanner(),
               _progressBar()
